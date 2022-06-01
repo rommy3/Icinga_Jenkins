@@ -1,0 +1,80 @@
+object Host "Test_192.168.56.200" {
+        import "generic-host"
+        display_name = "Test"
+        address = "192.168.56.200"
+}
+
+object Service "Ping Check" {
+        import "generic-service"
+        host_name = "Test_192.168.56.200"
+        check_command = "check_ping"
+}
+
+
+object Service "Band_Name_BW_usage" {
+        import "generic-service"
+        host_name ="Test_192.168.56.200"
+        check_command = "check_iftraffic_new"
+        vars.snmp_community= "ROSESNMP"
+        vars.if_index = "2"
+        vars.if_bandwidth = "If_speed"
+        vars.if_unit = "m"
+        vars.if_warn = "Critical_Value"
+        vars.if_crit = "90"
+}
+object Service "httpd_port check" {
+        import "generic-service"
+        check_command = "check_port"
+	host_name = "Test_192.168.56.200"
+        vars.ARG1 = "Critical_Value"
+}
+
+object Service "url_check" {
+        import "generic-service"
+        check_command = "check_curly"
+        host_name = "Test_192.168.56.200"
+        vars.ARG1 = "google.com"
+}
+
+object Service "httpd Usage" {
+        import "generic-service"
+        host_name = "Test_192.168.56.200"
+        check_command = "check_snmp_process"
+        vars.ARG1 = "ROSESNMP"
+        vars.ARG2 = "httpd"
+}
+object Service "Disk Usage" {
+        import "generic-service"
+        host_name = "Test_192.168.56.200"
+        check_command = "check_win_all_drive"
+        vars.ARG1 = "ROSESNMP"
+        vars.ARG2 = "60"
+        vars.ARG3 = "88"
+}
+
+object Service "RAM Utilization" {
+        import "generic-service"
+        host_name = "Test_192.168.56.200"
+        check_command = "check_win_snmp_ram.sh"
+        vars.ARG1 = "ROSESNMP"
+        vars.ARG2 = "6"
+        vars.ARG3 = "8"
+}
+
+object Service "Uptime" {
+        import "generic-service"
+        host_name = "Test_192.168.56.200"
+        check_command = "check_uptime"
+        vars.ARG1="ROSESNMP"
+        vars.ARG2="600"
+        vars.ARG3="300"
+}
+
+object Service "CPU Utilization" {
+        import "generic-service"
+        host_name = "Test_192.168.56.200"
+        check_command = "check_win_snmp_cpu"
+        vars.ARG1 = "ROSESNMP"
+        vars.ARG2 = "30"
+        vars.ARG3 = "50"
+}

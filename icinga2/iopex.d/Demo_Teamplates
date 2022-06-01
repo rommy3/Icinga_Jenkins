@@ -1,0 +1,83 @@
+object Host "Demo_host_192.168.102.50.iopex.com" {
+        import "generic-host"
+        display_name = "Demo_host_192.168.102.50.conf"
+        address = "192.168.102.50"
+}
+
+object Service "Ping Check" {
+        import "generic-service"
+        host_name = "Demo_host_192.168.102.50.iopex.com"
+        check_command = "check_ping"
+}
+
+object Service "Disk Usage" {
+        import "generic-service"
+        host_name = "Demo_host_192.168.102.50.iopex.com"
+        check_command = "check_win_all_drive"
+        vars.ARG1 = "10p3xM0n1t3r"
+        vars.ARG2 = "80"
+        vars.ARG3 = "90"
+}
+
+object Service "RAM Utilization" {
+        import "generic-service"
+        host_name = "Demo_host_192.168.102.50.iopex.com"
+        check_command = "check_linux_RAM"
+        vars.ARG1 = "10p3xM0n1t3r"
+        vars.ARG2 = "80"
+        vars.ARG3 = "90"
+}
+
+object Service "Uptime" {
+        import "generic-service"
+        host_name = "Demo_host_192.168.102.50.iopex.com"
+        check_command = "check_uptime"
+        vars.ARG1="10p3xM0n1t3r"
+        vars.ARG2="600"
+        vars.ARG3="300"
+}
+
+object Service "CPU Utilization" {
+        import "generic-service"
+        host_name = "Demo_host_192.168.102.50.iopex.com"
+        check_command = "check_win_snmp_cpu"
+        vars.ARG1 = "10p3xM0n1t3r"
+        vars.ARG2 = "80"
+        vars.ARG3 = "90"
+}
+object Service "Bandwidth_BW_usage" {
+        import "generic-service"
+        host_name ="Demo_host_192.168.102.50.iopex.com"
+        check_command = "check_iftraffic_new"
+        vars.host_address = "192.168.102.50"
+        vars.snmp_community= "10p3xM0n1t3r"
+        vars.if_index = "2"
+        vars.if_bandwidth = "200"
+        vars.if_unit = "m"
+        vars.if_warn = "80"
+        vars.if_crit = "90"
+}
+object Service "http_port check" {
+        import "generic-service"
+        check_command = "check_port"
+	host_name = "Demo_host_192.168.102.50.iopex.com"
+        vars.ARG1 = "80"
+        vars.ARG2 = "192.168.102.50"
+}
+
+object Service "mysqld Usage" {
+        import "generic-service"
+        host_name = "Demo_host_192.168.102.50.iopex.com"
+        check_command = "check_snmp_process"
+        vars.ARG1 = "10p3xM0n1t3r"
+        vars.ARG2 = "192.168.102.50"
+        vars.ARG3 = "mysqld"
+        vars.perf_data = true
+
+}
+object Service "url_check" {
+        import "generic-service"
+        check_command = "check_curly"
+        host_name = "Demo_host_192.168.102.50.iopex.com"
+        vars.ARG1 = "google.com"
+}

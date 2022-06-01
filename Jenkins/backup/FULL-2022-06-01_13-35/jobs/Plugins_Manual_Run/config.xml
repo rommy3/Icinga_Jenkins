@@ -1,0 +1,63 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>Plugin_Name</name>
+          <description>Enter the Plugin name you want to run with</description>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>List_Plugins</name>
+          <description>Check the box if you want to list the Plugins</description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>Help</name>
+          <description>Check the box if you want to check the help option in plugin</description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>Arguments</name>
+          <description>Please Enter the plugin arguments</description>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash
+
+if [ $Help == true ] &amp;&amp; [ -n $Plugin_Name ];then
+	Arguments=&quot;--help&quot;
+fi
+
+echo &quot;$Plugin_Name - $Arguments - $Help - $List_Plugins&quot;
+
+if [ $List_Plugins == true ];then
+	sudo ls -l /usr/lib64/nagios/plugins/
+elif [ -n $Plugin_Name ];then
+	echo -e &quot;\n\n&quot;
+    sudo /usr/lib64/nagios/plugins/$Plugin_Name $Arguments
+    echo -e &quot;\n\n&quot;
+else
+	echo -e &quot;Please select any value to run the job&quot;
+fi</command>
+      <configuredLocalRules/>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>

@@ -1,0 +1,76 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<scriptApproval plugin="script-security@1145.vb_cf6cf6ed960">
+  <approvedScriptHashes>
+    <string>017d0db438428731cd600b6ebda805065433520f</string>
+    <string>0cf8f7d9cd65f4cf7582f4d205fd7d8f743544c0</string>
+    <string>0d570c7a241c921838382058078bb4ab63ca93f7</string>
+    <string>1bef2673010df8032cd71410e235cfcb537ce037</string>
+    <string>1e42b12edfe1e8fed706b7f6c7fa7c9aa10cb316</string>
+    <string>2f9ebd44b7d10bf12023f1839130077d22e6b750</string>
+    <string>483526835a1606788e97c17f347f1f688ddc9e00</string>
+    <string>4f212da156056f3f3c5bf7221b7fcf74ecad5e64</string>
+    <string>5915073987fc8e535eb13fe4aafe10e3fd693657</string>
+    <string>62f05ed2a2c226af2c18e7c3de7cd781b22a29b5</string>
+    <string>6dd4b4b227e5d24b99efbd2716a80554196aedd1</string>
+    <string>72a1ed428326fe8a48d63c7dc22b0218e55f9060</string>
+    <string>77121e4cb5c7669a6aa5581c7236d5e8a772a25b</string>
+    <string>82002ef2ce8057572ba5dc4dacef2ca81b2a8579</string>
+    <string>8e8683adced6b1efcf159c184951900bcffbb925</string>
+    <string>97b7100955ba374b258eab2576bbb44f93b2119f</string>
+    <string>a947098a3ff11cba98b69b63e70783a16c153d2f</string>
+    <string>b8dce90c8d99b1a21b2f358d41a6c60d9302a6fc</string>
+    <string>c0979d2a242e38fa33aa678d39d2cf19b8eb66c1</string>
+    <string>c55533fb70a11d36d65c3de8befb3583219d096b</string>
+    <string>cded1f449624117401a1aa55f6d87690fa7958ae</string>
+    <string>e1b74bd13e979da7a83313882d716df3200de6cc</string>
+    <string>efa2af2691b1c3d0dfde1aba6278f7c16c79e176</string>
+    <string>f3ae049f01d7c11b30a5c9e0bf8dd006eb3228c2</string>
+    <string>f71d88b6322dd640f8965bec918c84e5a0e75ced</string>
+  </approvedScriptHashes>
+  <approvedSignatures/>
+  <aclApprovedSignatures/>
+  <approvedClasspathEntries/>
+  <pendingScripts>
+    <pendingScript>
+      <context/>
+      <script>return[&apos;DC01&apos;, &apos;DC02&apos;, &apos;DC03&apos;]</script>
+      <language>groovy</language>
+    </pendingScript>
+    <pendingScript>
+      <context/>
+      <script>return[&apos;Could not get the services list&apos;]</script>
+      <language>groovy</language>
+    </pendingScript>
+    <pendingScript>
+      <context/>
+      <script>
+                                                if (data_center.contains(&apos;DC01&apos;)){
+                                                    return &quot;&quot;&quot;&lt;textarea name=&quot;value&quot; rows=&quot;5&quot; class=&quot;setting-input   &quot;&gt;&lt;/textarea&gt;&quot;&quot;&quot;
+
+                                                } else 
+                                                if (data_center.contains(&apos;DC02&apos;)){
+                                                    return &quot;&quot;&quot;&lt;textarea name=&quot;value&quot; rows=&quot;5&quot; class=&quot;setting-input   &quot;&gt;&lt;/textarea&gt;&quot;&quot;&quot;
+
+                                                }
+                                                </script>
+      <language>groovy</language>
+    </pendingScript>
+    <pendingScript>
+      <context/>
+      <script>return[&apos;&apos;]</script>
+      <language>groovy</language>
+    </pendingScript>
+    <pendingScript>
+      <context/>
+      <script>
+                                                if (data_center.contains(&apos;DC02&apos;)){
+                                                    return &quot;&quot;&quot;&lt;textarea name=&quot;value&quot; rows=&quot;5&quot; class=&quot;setting-input   &quot;&gt;&lt;/textarea&gt;&quot;&quot;&quot;
+
+                                                }
+                                                </script>
+      <language>groovy</language>
+    </pendingScript>
+  </pendingScripts>
+  <pendingSignatures/>
+  <pendingClasspathEntries/>
+</scriptApproval>

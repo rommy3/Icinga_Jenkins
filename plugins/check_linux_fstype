@@ -1,0 +1,94 @@
+#! /usr/bin/python
+
+import argparse, sys, re
+from pysnmp.entity.rfc3413.oneliner import cmdgen
+
+args_list=None
+hrfsoids=['1.3.6.1.2.1.25.3.8.1.5', '1.3.6.1.2.1.25.3.8.1.2']
+readwrite=1
+readonly=2
+ronlyfss=""
+SUCCESS=0
+WARNING=1
+CRITICAL=2
+
+parser=argparse.ArgumentParser(description="Check linux file system mounted as readonly")
+parser.add_argument('-s', '--host', required=True, help='host name')
+parser.add_argument('-c', '--comstr', required=True, help='community string')
+parser.add_argument('-f', '--fsys', help='file system mount point')
+
+def parse_args(args):
+   global args_list
+   args.pop(0)
+   args_list=parser.parse_args(args)
+
+def check_fsystem():
+   global args_list, ronlyfss
+   status=SUCCESS
+   fsys_exists=0
+   cmdGen=cmdgen.CommandGenerator()
+   try:
+      errorIndication, errorStatus, errorIndex, varBindTable = cmdGen.nextCmd(
+          cmdgen.CommunityData(args_list.comstr),
+          cmdgen.UdpTransportTarget((args_list.host,161)),
+          hrfsoids[0],
+          hrfsoids[1],
+      )
+   except:
+      print "RESPONSE: UNKNOWN "
+      sys.exit(3)
+   if errorIndication:
+      print("RESPONSE: Error "+str(errorIndication))
+      sys.exit(3)
+   else:
+      if errorStatus:
+         print('RESPONSE: Error %s at %s' % (
+             errorStatus.prettyPrint(),
+             errorIndex and varBindTable[-1][int(errorIndex)-1] or '?'
+             )
+         )
+         sys.exit(3)
+      else:
+         for varBindTableRow in varBindTable:
+            flag=0
+            for name, val in varBindTableRow:
+               if(flag == 1 and args_list.fsys == None):
+                  status=CRITICAL
+                  ronlyfss=ronlyfss+' '+str(val)
+               elif(flag==1 and args_list.fsys != None and args_list.fsys == str(val)):
+                  status=CRITICAL
+                  ronlyfss=ronlyfss+' '+str(val)
+               if(re.match(hrfsoids[0]+'.*', str(name)) != None):
+                  if(int(str(val)) == readonly):
+                     flag=1
+               if(args_list.fsys != None and re.match(hrfsoids[1]+'.*', str(name)) != None and args_list.fsys == str(val)):
+                  fsys_exists=1
+         if(args_list.fsys != None and fsys_exists != 1):
+            status=WARNING
+   return status
+
+def output(status):
+   global args_list
+   if(status == SUCCESS and args_list.fsys == None):
+      print "RESPONSE: OK - No file system detected as readonly"
+      sys.exit(0)
+   elif(status == SUCCESS and args_list.fsys != None):
+      print "RESPONSE: OK - File system mounted in "+args_list.fsys+ " is not readonly"
+      sys.exit(0)
+   elif(status == WARNING):
+      print "RESPONSE: WARNING - No File system mounted in the given path "+args_list.fsys
+      sys.exit(1)
+   elif(status == CRITICAL):
+      print "RESPONSE: Critical - File system mounted in "+ronlyfss+" detetced as readonly"
+      sys.exit(2)
+   else:
+      print "RESPONSE: UNKNOWN"
+      sys.exit(3)
+
+def main():
+   parse_args(sys.argv)
+   ret_status=check_fsystem()
+   output(ret_status)
+
+if __name__ == "__main__":
+   main()

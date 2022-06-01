@@ -1,0 +1,187 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>Hostname</name>
+          <description>Pls Provide the Hostname here.</description>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>IP_Address</name>
+          <description>Pls Provide the IP_Address here.</description>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+        <org.biouno.unochoice.ChoiceParameter plugin="uno-choice@2.6.1">
+          <name>Basic_Service_Type</name>
+          <description>This will used to add Basic Services like (CPU,RAM,Disk, Active Connections &amp; Uptime) depends on DeviceType.
+Note: &quot;Host_Only&quot; will not add any additional Services.</description>
+          <randomName>choice-parameter-4480980271334</randomName>
+          <visibleItemCount>1</visibleItemCount>
+          <script class="org.biouno.unochoice.model.GroovyScript">
+            <secureScript plugin="script-security@1145.vb_cf6cf6ed960">
+              <script>return[ &quot;Host_Only&quot;, &quot;DEFAULT&quot;, &quot;FIREWALL&quot;, &quot;CISCO&quot;]</script>
+              <sandbox>false</sandbox>
+            </secureScript>
+            <secureFallbackScript plugin="script-security@1145.vb_cf6cf6ed960">
+              <script>return[&quot;Cant use this option now&quot;]</script>
+              <sandbox>false</sandbox>
+            </secureFallbackScript>
+          </script>
+          <projectName>Icinga-Host-configuration</projectName>
+          <projectFullName>Icinga-Host-configuration</projectFullName>
+          <choiceType>PT_SINGLE_SELECT</choiceType>
+          <filterable>false</filterable>
+          <filterLength>1</filterLength>
+        </org.biouno.unochoice.ChoiceParameter>
+        <org.biouno.unochoice.CascadeChoiceParameter plugin="uno-choice@2.6.1">
+          <name>Firewall_Type</name>
+          <randomName>choice-parameter-6120412508806</randomName>
+          <visibleItemCount>1</visibleItemCount>
+          <script class="org.biouno.unochoice.model.GroovyScript">
+            <secureScript plugin="script-security@1145.vb_cf6cf6ed960">
+              <script>if(Basic_Service_Type.equals(&apos;FIREWALL&apos;)) {
+  return [&quot;PAN&quot;, &quot;FORTI&quot;, &quot;SONIC&quot;]
+} else {
+  pass
+}</script>
+              <sandbox>false</sandbox>
+            </secureScript>
+            <secureFallbackScript plugin="script-security@1145.vb_cf6cf6ed960">
+              <script></script>
+              <sandbox>false</sandbox>
+            </secureFallbackScript>
+          </script>
+          <projectName>Icinga-Host-configuration</projectName>
+          <projectFullName>Icinga-Host-configuration</projectFullName>
+          <parameters class="linked-hash-map"/>
+          <referencedParameters>Basic_Service_Type</referencedParameters>
+          <choiceType>PT_SINGLE_SELECT</choiceType>
+          <filterable>false</filterable>
+          <filterLength>1</filterLength>
+        </org.biouno.unochoice.CascadeChoiceParameter>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>Community_String</name>
+          <description>Pls select the Community String, If you are using Default_Services or Bandwidth or Process Checks.</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>10p3xM0n1t3r</string>
+              <string>Gr0w!pxM0nt!or</string>
+              <string>ROSESNMP</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>Bandwidth_Check</name>
+          <description>Pls provide the Bandwidth Parameters. This is an optional.
+
+Usage: -b Bandwidth if_speed if_index</description>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>Port_Check</name>
+          <description>Pls provide the Port_check Parameters. This is an optional.
+
+Usage : -p httpd 80 -p mysqld 3306</description>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>Process_Check</name>
+          <description>Pls provide the Process_Check Parameters. This is an optional.
+
+Usage ; -m httpd -m mysqld</description>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>URL_Check</name>
+          <description>Pls Provide the URL here. This is an optional
+
+Usage : -u URL</description>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>PD_Notification</name>
+          <description>Please choose one of the below argument to continue..
+generic-default
+OPEXWISE
+SUPPORT-FIRST
+SERVER-ADMINS
+NET-SERVE
+MTAP
+CIO</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>GENERIC-DEFAULT</string>
+              <string>OPEXWISE</string>
+              <string>SUPPORT-FIRST</string>
+              <string>SERVER-ADMINS</string>
+              <string>NET-SERVE</string>
+              <string>MTAP</string>
+              <string>CIO</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>Compile_or_Reload</name>
+          <description>Pls Select any option if you want. This is an optional.
+
+-C for Compile
+-R for Reload</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>-C</string>
+              <string>-R</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <com.wangyin.parameter.WHideParameterDefinition plugin="hidden-parameter@0.0.4">
+          <name>OPMON</name>
+          <description>OPMON_Project</description>
+          <defaultValue>http://192.168.56.200/icingaweb2/img/icinga-logo-big-dark.png</defaultValue>
+        </com.wangyin.parameter.WHideParameterDefinition>
+        <org.biouno.unochoice.DynamicReferenceParameter plugin="uno-choice@2.6.1">
+          <name>OPMON-Host-Adding</name>
+          <description>ICINGAWEB-2</description>
+          <randomName>choice-parameter-32466868418387</randomName>
+          <visibleItemCount>1</visibleItemCount>
+          <script class="org.biouno.unochoice.model.GroovyScript">
+            <secureScript plugin="script-security@1145.vb_cf6cf6ed960">
+              <script>return &quot;&quot;&quot;&lt;img src=&quot; &quot;&quot;&quot;+ OPMON + &quot;&quot;&quot; &quot;alt=&quot;no-image&quot;&gt;&quot;&quot;&quot;</script>
+              <sandbox>false</sandbox>
+            </secureScript>
+            <secureFallbackScript plugin="script-security@1145.vb_cf6cf6ed960">
+              <script>return  &quot;&quot;&quot; &lt;h3&gt; Error Loading image! &lt;/h3&gt; &quot;&quot;&quot;</script>
+              <sandbox>false</sandbox>
+            </secureFallbackScript>
+          </script>
+          <projectName>Icinga-Host-configuration</projectName>
+          <projectFullName>Icinga-Host-configuration</projectFullName>
+          <parameters class="linked-hash-map"/>
+          <referencedParameters>OPMON</referencedParameters>
+          <choiceType>ET_FORMATTED_HTML</choiceType>
+          <omitValueField>false</omitValueField>
+        </org.biouno.unochoice.DynamicReferenceParameter>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>sudo /home/Jenkins/Host_ADD.sh $Hostname $IP_Address $Basic_Service_Type -t &quot;$Firewall_Type&quot; -c $Community_String $Bandwidth_Check $Port_Check \
+$Process_Check $URL_Check -n $PD_Notification $Compile_or_Reload</command>
+      <configuredLocalRules/>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>
